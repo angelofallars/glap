@@ -21,13 +21,13 @@ func main() {
     var match_pattern string
     match_pattern_found := false
     
-    // Walk through command-line arguments
-    // Treat the first non-option as the filter pattern
     for _, arg := range os.Args[1:] {
         switch arg {
             case "-i":
             ignore_case = true
+
             default:
+            // Treat the first non-option argument as the filter pattern
             match_pattern = arg
             match_pattern_found = true
             break
