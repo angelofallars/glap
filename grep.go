@@ -43,10 +43,8 @@ func main() {
         match_pattern = strings.ToUpper(match_pattern)
     }
 
-    // Read from STDIN
     lines := read_input_lines()
     
-    // Check each line, and if it has the string sequence, print it
     for _, line := range lines {
         processed_line := line
 
