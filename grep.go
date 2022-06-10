@@ -45,6 +45,8 @@ func main() {
     // things to filter won't always be the same as the original input,
     // e.g. when ignoring letter case, where everything turns into uppercase.
     var processed_lines []string
+    
+    // Clone the `lines` slice into the `processed_lines` slice
     processed_lines = append(processed_lines, lines...)
     
     if ignore_case {
