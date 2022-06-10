@@ -40,6 +40,10 @@ func main() {
     }
 
     lines := read_input_lines()
+
+    // processed_lines is needed because the internal representation of
+    // things to filter won't always be the same as the original input,
+    // e.g. when ignoring letter case, where everything turns into uppercase.
     var processed_lines []string
     processed_lines = append(processed_lines, lines...)
     
