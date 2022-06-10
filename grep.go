@@ -44,10 +44,10 @@ func main() {
     }
 
     // Read from STDIN
-    input_lines := read_input_lines()
+    lines := read_input_lines()
     
     // Check each line, and if it has the string sequence, print it
-    for _, line := range input_lines {
+    for _, line := range lines {
         processed_line := line
 
         if ignore_case {
