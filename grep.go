@@ -44,16 +44,7 @@ func main() {
     }
 
     // Read from STDIN
-    input_scanner := bufio.NewScanner(os.Stdin)
-    input_lines := []string{}
-
-	for input_scanner.Scan() {
-        input_lines = append(input_lines, input_scanner.Text())
-	}
-
-	if error := input_scanner.Err(); error != nil {
-        log.Fatal(error)
-	}
+    input_lines := read_input_lines()
     
     // Check each line, and if it has the string sequence, print it
     for _, line := range input_lines {
@@ -68,3 +59,19 @@ func main() {
         }
     }
 }
+
+func read_input_lines() []string {
+    input_scanner := bufio.NewScanner(os.Stdin)
+    input_lines := []string{}
+
+	for input_scanner.Scan() {
+        input_lines = append(input_lines, input_scanner.Text())
+	}
+
+	if error := input_scanner.Err(); error != nil {
+        log.Fatal(error)
+	}
+
+    return input_lines
+}
+
