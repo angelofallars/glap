@@ -39,21 +39,22 @@ func main() {
         os.Exit(1)
     }
 
+    lines := read_input_lines()
+    var processed_lines []string
+    processed_lines = append(processed_lines, lines...)
+    
     if ignore_case {
         match_pattern = strings.ToUpper(match_pattern)
+
+        for i := range processed_lines {
+            processed_lines[i] = strings.ToUpper(processed_lines[i])
+        }
     }
 
-    lines := read_input_lines()
-    
-    for _, line := range lines {
-        processed_line := line
-
-        if ignore_case {
-            processed_line = strings.ToUpper(processed_line)
-        }
+    for i, processed_line := range processed_lines {
 
         if (strings.Contains(processed_line, match_pattern)) {
-            fmt.Println(line)
+            fmt.Println(lines[i])
         }
     }
 }
