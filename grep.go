@@ -22,7 +22,7 @@ func main() {
 
     options := Options{}
 
-    var match_pattern string
+    var pattern string
     pattern_arg_found := false
     
     for _, arg := range os.Args[1:] {
@@ -32,7 +32,7 @@ func main() {
 
             default:
             // Treat the first non-option argument as the filter pattern
-            match_pattern = arg
+            pattern = arg
             pattern_arg_found = true
             break
         }
@@ -54,14 +54,14 @@ func main() {
     processed_lines = append(processed_lines, lines...)
     
     if options.ignore_case {
-        match_pattern = strings.ToUpper(match_pattern)
+        pattern = strings.ToUpper(pattern)
 
         for i := range processed_lines {
             processed_lines[i] = strings.ToUpper(processed_lines[i])
         }
     }
 
-    print_matching_lines(lines, processed_lines, match_pattern)
+    print_matching_lines(lines, processed_lines, pattern)
 }
 
 func print_matching_lines(orig_lines []string, lines []string, pattern string) {
