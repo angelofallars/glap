@@ -23,7 +23,7 @@ func main() {
     options := Options{}
 
     var match_pattern string
-    match_pattern_found := false
+    pattern_arg_found := false
     
     for _, arg := range os.Args[1:] {
         switch arg {
@@ -33,12 +33,12 @@ func main() {
             default:
             // Treat the first non-option argument as the filter pattern
             match_pattern = arg
-            match_pattern_found = true
+            pattern_arg_found = true
             break
         }
     }
 
-    if !match_pattern_found {
+    if !pattern_arg_found {
         fmt.Println("usage: grep [PATTERN]")
         os.Exit(1)
     }
