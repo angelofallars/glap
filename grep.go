@@ -27,6 +27,9 @@ func main() {
 
 	for _, arg := range os.Args[1:] {
 		switch arg {
+        
+        case "--ignore-case":
+            fallthrough
 		case "-i":
 			options.ignore_case = true
 
