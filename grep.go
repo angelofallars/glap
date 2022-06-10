@@ -8,6 +8,10 @@ import (
     "strings"
 )
 
+type Options struct {
+    ignore_case bool
+}
+
 func main() {
     arg_count := len(os.Args[1:])
 
@@ -16,7 +20,7 @@ func main() {
         os.Exit(1)
     }
 
-    ignore_case := false
+    options := Options{}
 
     var match_pattern string
     match_pattern_found := false
@@ -24,7 +28,7 @@ func main() {
     for _, arg := range os.Args[1:] {
         switch arg {
             case "-i":
-            ignore_case = true
+            options.ignore_case = true
 
             default:
             // Treat the first non-option argument as the filter pattern
@@ -49,7 +53,7 @@ func main() {
     // Clone the `lines` slice into the `processed_lines` slice
     processed_lines = append(processed_lines, lines...)
     
-    if ignore_case {
+    if options.ignore_case {
         match_pattern = strings.ToUpper(match_pattern)
 
         for i := range processed_lines {
