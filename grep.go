@@ -10,6 +10,7 @@ import (
 
 type Options struct {
 	ignore_case bool
+    show_line_number bool
 }
 
 func main() {
@@ -32,6 +33,11 @@ func main() {
             fallthrough
 		case "-i":
 			options.ignore_case = true
+
+        case "--line-number":
+            fallthrough
+		case "-n":
+			options.show_line_number = true
 
 		default:
 			// Treat the first non-option argument as the filter pattern
@@ -64,13 +70,18 @@ func main() {
 		}
 	}
 
-	print_matching_lines(lines, processed_lines, pattern)
+	print_matching_lines(lines, processed_lines, pattern, options)
 }
 
-func print_matching_lines(orig_lines []string, lines []string, pattern string) {
+func print_matching_lines(orig_lines []string, lines []string, pattern string, options Options) {
 	for i, line := range lines {
 
 		if strings.Contains(line, pattern) {
+
+            if options.show_line_number {
+                fmt.Printf("%v:", i)
+            }
+
 			fmt.Println(orig_lines[i])
 		}
 	}
