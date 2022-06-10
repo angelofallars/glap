@@ -57,10 +57,14 @@ func main() {
         }
     }
 
-    for i, processed_line := range processed_lines {
+    print_matching_lines(lines, processed_lines, match_pattern)
+}
 
-        if (strings.Contains(processed_line, match_pattern)) {
-            fmt.Println(lines[i])
+func print_matching_lines(orig_lines []string, lines []string, pattern string) {
+    for i, line := range lines {
+
+        if (strings.Contains(line, pattern)) {
+            fmt.Println(orig_lines[i])
         }
     }
 }
