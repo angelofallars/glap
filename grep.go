@@ -58,10 +58,13 @@ func main() {
 			options.invert_match = true
 
 		default:
+            if pattern_arg_found {
+                continue
+            }
+
 			// Treat the first non-option argument as the filter pattern
 			pattern = arg
 			pattern_arg_found = true
-			break
 		}
 	}
 
