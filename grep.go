@@ -30,6 +30,12 @@ func main() {
 
 	for _, arg := range os.Args[1:] {
 		switch arg {
+
+        case "--help":
+            fallthrough
+        case "--h":
+            print_help_message()
+            os.Exit(0)
         
         case "--ignore-case":
             fallthrough
@@ -118,6 +124,19 @@ func print_matching_lines(orig_lines []string, lines []string, pattern string, o
 func print_usage() {
     fmt.Println("usage: grep [OPTION]... PATTERN")
     fmt.Println("Try 'grep --help' for more information.")
+}
+
+func print_help_message() {
+    fmt.Println("usage: grep [OPTION]... PATTERN")
+    fmt.Println("Search for PATTERN matches from standard input. Reading from file support coming soon.")
+    fmt.Println("Example: ls | grep -i '.go'")
+    fmt.Printf("\n")
+    fmt.Println("Available options:")
+    fmt.Println(" --h, --help                show help message and exit")
+    fmt.Println("  -i, --ignore-case         ignore case when finding matches")
+    fmt.Println("  -n, --line-number         print line number before matching lines")
+    fmt.Println("  -c, --count               only display the count of matching lines")
+    fmt.Println("  -v, --invert-match        display non-matching lines instead")
 }
 
 func read_input_lines() []string {
