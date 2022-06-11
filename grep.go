@@ -19,7 +19,7 @@ func main() {
 	arg_count := len(os.Args[1:])
 
 	if arg_count <= 0 {
-		fmt.Println("usage: grep [PATTERN]")
+        print_usage()
 		os.Exit(1)
 	}
 
@@ -60,7 +60,7 @@ func main() {
 	}
 
 	if !pattern_arg_found {
-		fmt.Println("usage: grep [PATTERN]")
+        print_usage()
 		os.Exit(1)
 	}
 
@@ -113,6 +113,10 @@ func print_matching_lines(orig_lines []string, lines []string, pattern string, o
     if options.only_show_count {
         fmt.Println(line_count)
     }
+}
+
+func print_usage() {
+    fmt.Println("usage: grep [PATTERN]")
 }
 
 func read_input_lines() []string {
