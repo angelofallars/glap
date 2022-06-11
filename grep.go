@@ -11,6 +11,7 @@ import (
 type Options struct {
 	ignore_case bool
     show_line_number bool
+    only_show_count bool
 }
 
 func main() {
@@ -38,6 +39,11 @@ func main() {
             fallthrough
 		case "-n":
 			options.show_line_number = true
+
+        case "--count":
+            fallthrough
+		case "-c":
+			options.only_show_count = true
 
 		default:
 			// Treat the first non-option argument as the filter pattern
@@ -74,9 +80,15 @@ func main() {
 }
 
 func print_matching_lines(orig_lines []string, lines []string, pattern string, options Options) {
-	for i, line := range lines {
+    line_count := 0
 
+	for i, line := range lines {
 		if strings.Contains(line, pattern) {
+
+            if options.only_show_count {
+                line_count += 1
+                continue
+            }
 
             if options.show_line_number {
                 fmt.Printf("%v:", i)
@@ -85,6 +97,10 @@ func print_matching_lines(orig_lines []string, lines []string, pattern string, o
 			fmt.Println(orig_lines[i])
 		}
 	}
+
+    if options.only_show_count {
+        fmt.Println(line_count)
+    }
 }
 
 func read_input_lines() []string {
