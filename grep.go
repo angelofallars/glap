@@ -12,6 +12,7 @@ type Options struct {
 	ignore_case bool
     show_line_number bool
     only_show_count bool
+    invert_match bool
 }
 
 func main() {
@@ -44,6 +45,11 @@ func main() {
             fallthrough
 		case "-c":
 			options.only_show_count = true
+
+        case "--invert-match":
+            fallthrough
+		case "-v":
+			options.invert_match = true
 
 		default:
 			// Treat the first non-option argument as the filter pattern
@@ -83,7 +89,13 @@ func print_matching_lines(orig_lines []string, lines []string, pattern string, o
     line_count := 0
 
 	for i, line := range lines {
-		if strings.Contains(line, pattern) {
+        line_is_match := strings.Contains(line, pattern)
+
+        if options.invert_match {
+            line_is_match = !line_is_match
+        }
+
+		if line_is_match {
 
             if options.only_show_count {
                 line_count += 1
