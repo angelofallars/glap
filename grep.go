@@ -116,7 +116,8 @@ func print_matching_lines(orig_lines []string, lines []string, pattern string, o
 }
 
 func print_usage() {
-    fmt.Println("usage: grep [PATTERN]")
+    fmt.Println("usage: grep [OPTION]... PATTERN")
+    fmt.Println("Try 'grep --help' for more information.")
 }
 
 func read_input_lines() []string {
