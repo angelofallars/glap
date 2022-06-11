@@ -16,8 +16,8 @@ type Options struct {
 }
 
 func main() {
-	arg_count := len(os.Args[1:])
 
+	arg_count := len(os.Args[1:])
 	if arg_count <= 0 {
 		print_usage()
 		os.Exit(1)
