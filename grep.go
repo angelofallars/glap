@@ -9,17 +9,17 @@ import (
 )
 
 type Options struct {
-	ignore_case bool
-    show_line_number bool
-    only_show_count bool
-    invert_match bool
+	ignore_case      bool
+	show_line_number bool
+	only_show_count  bool
+	invert_match     bool
 }
 
 func main() {
 	arg_count := len(os.Args[1:])
 
 	if arg_count <= 0 {
-        print_usage()
+		print_usage()
 		os.Exit(1)
 	}
 
@@ -31,36 +31,36 @@ func main() {
 	for _, arg := range os.Args[1:] {
 		switch arg {
 
-        case "--help":
-            fallthrough
-        case "--h":
-            print_help_message()
-            os.Exit(0)
-        
-        case "--ignore-case":
-            fallthrough
+		case "--help":
+			fallthrough
+		case "--h":
+			print_help_message()
+			os.Exit(0)
+
+		case "--ignore-case":
+			fallthrough
 		case "-i":
 			options.ignore_case = true
 
-        case "--line-number":
-            fallthrough
+		case "--line-number":
+			fallthrough
 		case "-n":
 			options.show_line_number = true
 
-        case "--count":
-            fallthrough
+		case "--count":
+			fallthrough
 		case "-c":
 			options.only_show_count = true
 
-        case "--invert-match":
-            fallthrough
+		case "--invert-match":
+			fallthrough
 		case "-v":
 			options.invert_match = true
 
 		default:
-            if pattern_arg_found {
-                continue
-            }
+			if pattern_arg_found {
+				continue
+			}
 
 			// Treat the first non-option argument as the filter pattern
 			pattern = arg
@@ -69,7 +69,7 @@ func main() {
 	}
 
 	if !pattern_arg_found {
-        print_usage()
+		print_usage()
 		os.Exit(1)
 	}
 
@@ -95,51 +95,51 @@ func main() {
 }
 
 func print_matching_lines(orig_lines []string, lines []string, pattern string, options Options) {
-    line_count := 0
+	line_count := 0
 
 	for i, line := range lines {
-        line_is_match := strings.Contains(line, pattern)
+		line_is_match := strings.Contains(line, pattern)
 
-        if options.invert_match {
-            line_is_match = !line_is_match
-        }
+		if options.invert_match {
+			line_is_match = !line_is_match
+		}
 
 		if line_is_match {
 
-            if options.only_show_count {
-                line_count += 1
-                continue
-            }
+			if options.only_show_count {
+				line_count += 1
+				continue
+			}
 
-            if options.show_line_number {
-                fmt.Printf("%v:", i)
-            }
+			if options.show_line_number {
+				fmt.Printf("%v:", i)
+			}
 
 			fmt.Println(orig_lines[i])
 		}
 	}
 
-    if options.only_show_count {
-        fmt.Println(line_count)
-    }
+	if options.only_show_count {
+		fmt.Println(line_count)
+	}
 }
 
 func print_usage() {
-    fmt.Println("usage: grep [OPTION]... PATTERN")
-    fmt.Println("Try 'grep --help' for more information.")
+	fmt.Println("usage: grep [OPTION]... PATTERN")
+	fmt.Println("Try 'grep --help' for more information.")
 }
 
 func print_help_message() {
-    fmt.Println("usage: grep [OPTION]... PATTERN")
-    fmt.Println("Search for PATTERN matches from standard input. Reading from file support coming soon.")
-    fmt.Println("Example: ls | grep -i '.go'")
-    fmt.Printf("\n")
-    fmt.Println("Available options:")
-    fmt.Println(" --h, --help                show help message and exit")
-    fmt.Println("  -i, --ignore-case         ignore case when finding matches")
-    fmt.Println("  -n, --line-number         print line number before matching lines")
-    fmt.Println("  -c, --count               only display the count of matching lines")
-    fmt.Println("  -v, --invert-match        display non-matching lines instead")
+	fmt.Println("usage: grep [OPTION]... PATTERN")
+	fmt.Println("Search for PATTERN matches from standard input. Reading from file support coming soon.")
+	fmt.Println("Example: ls | grep -i '.go'")
+	fmt.Printf("\n")
+	fmt.Println("Available options:")
+	fmt.Println(" --h, --help                show help message and exit")
+	fmt.Println("  -i, --ignore-case         ignore case when finding matches")
+	fmt.Println("  -n, --line-number         print line number before matching lines")
+	fmt.Println("  -c, --count               only display the count of matching lines")
+	fmt.Println("  -v, --invert-match        display non-matching lines instead")
 }
 
 func read_input_lines() []string {
