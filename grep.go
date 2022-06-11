@@ -94,7 +94,7 @@ func main() {
 	print_matching_lines(lines, processed_lines, pattern, options)
 }
 
-func print_matching_lines(orig_lines []string, lines []string, pattern string, options Options) {
+func print_matching_lines(original_lines []string, lines []string, pattern string, options Options) {
 	line_count := 0
 
 	for i, line := range lines {
@@ -115,7 +115,7 @@ func print_matching_lines(orig_lines []string, lines []string, pattern string, o
 				fmt.Printf("%v:", i)
 			}
 
-			fmt.Println(orig_lines[i])
+			fmt.Println(original_lines[i])
 		}
 	}
 
