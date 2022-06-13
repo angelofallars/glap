@@ -15,19 +15,14 @@ type Options struct {
 	show_line_number bool
 	only_show_count  bool
 	invert_match     bool
+	show_help        bool
 }
 
-func main() {
+var options Options
 
-	arg_count := len(os.Args[1:])
-	if arg_count <= 0 {
-		print_usage()
-		os.Exit(1)
-	}
-
-	options := Options{}
-
-	show_help := flag.BoolP("help", "h", false,
+func init() {
+	flag.BoolVarP(&options.show_help,
+		"help", "h", false,
 		"show help message and exit")
 
 	flag.BoolVarP(&options.ignore_case,
@@ -45,10 +40,19 @@ func main() {
 	flag.BoolVarP(&options.invert_match,
 		"invert-match", "v", false,
 		"display non-matching lines instead")
+}
+
+func main() {
+
+	arg_count := len(os.Args[1:])
+	if arg_count <= 0 {
+		print_usage()
+		os.Exit(1)
+	}
 
 	flag.Parse()
 
-	if *show_help {
+	if options.show_help {
 		print_help_message()
 		os.Exit(0)
 	}
