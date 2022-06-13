@@ -78,10 +78,7 @@ func main() {
 	// processed_lines is needed because the internal representation of
 	// things to filter won't always be the same as the original input,
 	// e.g. when ignoring letter case, where everything turns into uppercase.
-	var processed_lines []string
-
-	// Clone the `lines` slice into the `processed_lines` slice
-	processed_lines = append(processed_lines, lines...)
+	processed_lines := copy_string_slice(lines)
 
 	if options.ignore_case {
 		pattern = strings.ToUpper(pattern)
@@ -140,6 +137,13 @@ func print_help_message() {
 	fmt.Println("  -n, --line-number         print line number before matching lines")
 	fmt.Println("  -c, --count               only display the count of matching lines")
 	fmt.Println("  -v, --invert-match        display non-matching lines instead")
+}
+
+func copy_string_slice(original_slice []string) []string {
+	copied_slice := make([]string, len(original_slice))
+	copy(copied_slice, original_slice)
+
+	return copied_slice
 }
 
 func read_input_lines() []string {
