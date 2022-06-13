@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	flag "github.com/spf13/pflag"
 )
 
 type Options struct {
@@ -25,53 +27,40 @@ func main() {
 
 	options := Options{}
 
-	var pattern string
-	pattern_arg_found := false
+	show_help := flag.BoolP("help", "h", false,
+		"show help message and exit")
 
-	for _, arg := range os.Args[1:] {
-		switch arg {
+	flag.BoolVarP(&options.ignore_case,
+		"ignore-case", "i", false,
+		"ignore case when finding matches")
 
-		case "--help":
-			fallthrough
-		case "--h":
-			print_help_message()
-			os.Exit(0)
+	flag.BoolVarP(&options.show_line_number,
+		"line-number", "n", false,
+		"print line number before matching lines")
 
-		case "--ignore-case":
-			fallthrough
-		case "-i":
-			options.ignore_case = true
+	flag.BoolVarP(&options.only_show_count,
+		"count", "c", false,
+		"only display the count of matching lines")
 
-		case "--line-number":
-			fallthrough
-		case "-n":
-			options.show_line_number = true
+	flag.BoolVarP(&options.invert_match,
+		"invert-match", "v", false,
+		"display non-matching lines instead")
 
-		case "--count":
-			fallthrough
-		case "-c":
-			options.only_show_count = true
+	flag.Parse()
 
-		case "--invert-match":
-			fallthrough
-		case "-v":
-			options.invert_match = true
-
-		default:
-			if pattern_arg_found {
-				continue
-			}
-
-			// Treat the first non-option argument as the filter pattern
-			pattern = arg
-			pattern_arg_found = true
-		}
+	if *show_help {
+		print_help_message()
+		os.Exit(0)
 	}
 
-	if !pattern_arg_found {
+	remaining_args := flag.Args()
+
+	if len(remaining_args) == 0 {
 		print_usage()
 		os.Exit(1)
 	}
+
+	pattern := remaining_args[0]
 
 	lines := read_input_lines()
 
@@ -132,7 +121,7 @@ func print_help_message() {
 	fmt.Println("Example: ls | grep -i '.go'")
 	fmt.Printf("\n")
 	fmt.Println("Available options:")
-	fmt.Println(" --h, --help                show help message and exit")
+	fmt.Println("  -h, --help                show help message and exit")
 	fmt.Println("  -i, --ignore-case         ignore case when finding matches")
 	fmt.Println("  -n, --line-number         print line number before matching lines")
 	fmt.Println("  -c, --count               only display the count of matching lines")
