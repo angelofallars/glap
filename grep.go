@@ -125,11 +125,7 @@ func print_help_message() {
 	fmt.Println("Example: ls | grep -i '.go'")
 	fmt.Printf("\n")
 	fmt.Println("Available options:")
-	fmt.Println("  -h, --help                show help message and exit")
-	fmt.Println("  -i, --ignore-case         ignore case when finding matches")
-	fmt.Println("  -n, --line-number         print line number before matching lines")
-	fmt.Println("  -c, --count               only display the count of matching lines")
-	fmt.Println("  -v, --invert-match        display non-matching lines instead")
+	flag.PrintDefaults()
 }
 
 func copy_string_slice(original_slice []string) []string {
