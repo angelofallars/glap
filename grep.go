@@ -67,15 +67,21 @@ func main() {
 	// e.g. when ignoring letter case, where everything turns into uppercase.
 	processed_lines := copy_string_slice(lines)
 
+	pattern, processed_lines = prepare_for_matching(pattern, processed_lines, options)
+
+	print_matching_lines(lines, processed_lines, pattern, options)
+}
+
+func prepare_for_matching(pattern string, lines []string, options Options) (string, []string) {
 	if options.ignore_case {
 		pattern = strings.ToUpper(pattern)
 
-		for i := range processed_lines {
-			processed_lines[i] = strings.ToUpper(processed_lines[i])
+		for i := range lines {
+			lines[i] = strings.ToUpper(lines[i])
 		}
 	}
 
-	print_matching_lines(lines, processed_lines, pattern, options)
+	return pattern, lines
 }
 
 func print_matching_lines(original_lines []string, lines []string, pattern string, options Options) {
