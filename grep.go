@@ -11,11 +11,11 @@ import (
 )
 
 type Options struct {
+	show_help        bool
 	ignore_case      bool
 	show_line_number bool
 	only_show_count  bool
 	invert_match     bool
-	show_help        bool
 }
 
 var options Options
