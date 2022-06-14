@@ -74,7 +74,15 @@ func main() {
 
 	pattern, processed_lines = prepare_for_matching(pattern, processed_lines, options)
 
-	print_matching_lines(lines, processed_lines, pattern, options)
+	matching_lines := find_matching_lines(lines, processed_lines, pattern, options)
+
+	if !options.only_show_count {
+		for _, line := range matching_lines {
+			fmt.Println(line)
+		}
+	} else {
+		fmt.Println(len(matching_lines))
+	}
 }
 
 func prepare_for_matching(pattern string, lines []string, options Options) (string, []string) {
@@ -89,11 +97,11 @@ func prepare_for_matching(pattern string, lines []string, options Options) (stri
 	return pattern, lines
 }
 
-func print_matching_lines(original_lines []string, lines []string, pattern string, options Options) {
+func find_matching_lines(original_lines []string, lines []string, pattern string, options Options) []string {
 	line_count := 0
+	matching_lines := []string{}
 
 	for i, line := range lines {
-
 		if options.max_count >= 0 && line_count >= options.max_count {
 			break
 		}
@@ -107,21 +115,19 @@ func print_matching_lines(original_lines []string, lines []string, pattern strin
 		if line_is_match {
 			line_count += 1
 
-			if options.only_show_count {
-				continue
-			}
+			matching_line := ""
 
 			if options.show_line_number {
-				fmt.Printf("%v:", i)
+				matching_line = fmt.Sprintf("%v:", i)
 			}
 
-			fmt.Println(original_lines[i])
+			matching_line += original_lines[i]
+
+			matching_lines = append(matching_lines, matching_line)
 		}
 	}
 
-	if options.only_show_count && line_count > 0 {
-		fmt.Println(line_count)
-	}
+	return matching_lines
 }
 
 func print_usage() {
