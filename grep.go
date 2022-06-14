@@ -63,29 +63,29 @@ func main() {
 	flag.Parse()
 
 	if options.show_help {
-		print_help_message()
+		printHelpMessage()
 		os.Exit(0)
 	}
 
 	remaining_args := flag.Args()
 
 	if len(remaining_args) == 0 {
-		print_usage()
+		printUsage()
 		os.Exit(1)
 	}
 
 	pattern := remaining_args[0]
 
-	lines := read_input_lines()
+	lines := readInputLines()
 
 	// processed_lines is needed because the internal representation of
 	// things to filter won't always be the same as the original input,
 	// e.g. when ignoring letter case, where everything turns into uppercase.
-	processed_lines := copy_string_slice(lines)
+	processed_lines := copyStringSlice(lines)
 
-	pattern, processed_lines = prepare_for_matching(pattern, processed_lines, options)
+	pattern, processed_lines = prepareForMatching(pattern, processed_lines, options)
 
-	matching_lines := find_matching_lines(lines, processed_lines, pattern, options)
+	matching_lines := findMatchingLines(lines, processed_lines, pattern, options)
 
 	if !options.only_show_count {
 		for _, line := range matching_lines {
@@ -103,7 +103,7 @@ func main() {
 	}
 }
 
-func prepare_for_matching(pattern string, lines []string, options Options) (string, []string) {
+func prepareForMatching(pattern string, lines []string, options Options) (string, []string) {
 	if options.ignore_case {
 		pattern = strings.ToUpper(pattern)
 
@@ -115,7 +115,7 @@ func prepare_for_matching(pattern string, lines []string, options Options) (stri
 	return pattern, lines
 }
 
-func find_matching_lines(original_lines []string, lines []string, pattern string, options Options) []string {
+func findMatchingLines(original_lines []string, lines []string, pattern string, options Options) []string {
 	line_count := 0
 	matching_lines := []string{}
 
@@ -148,12 +148,12 @@ func find_matching_lines(original_lines []string, lines []string, pattern string
 	return matching_lines
 }
 
-func print_usage() {
+func printUsage() {
 	fmt.Println("usage: grep [OPTION]... PATTERN")
 	fmt.Println("Try 'grep --help' for more information.")
 }
 
-func print_help_message() {
+func printHelpMessage() {
 	fmt.Println("usage: grep [OPTION]... PATTERN")
 	fmt.Println("Search for PATTERN matches from standard input. Reading from file support coming soon.")
 	fmt.Println("Example: ls | grep -i '.go'")
@@ -162,14 +162,14 @@ func print_help_message() {
 	flag.PrintDefaults()
 }
 
-func copy_string_slice(original_slice []string) []string {
+func copyStringSlice(original_slice []string) []string {
 	copied_slice := make([]string, len(original_slice))
 	copy(copied_slice, original_slice)
 
 	return copied_slice
 }
 
-func read_input_lines() []string {
+func readInputLines() []string {
 	input_scanner := bufio.NewScanner(os.Stdin)
 	input_lines := []string{}
 
