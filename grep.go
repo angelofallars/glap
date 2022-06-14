@@ -83,6 +83,12 @@ func main() {
 	} else {
 		fmt.Println(len(matching_lines))
 	}
+
+	if len(matching_lines) > 0 {
+		os.Exit(0)
+	} else {
+		os.Exit(1)
+	}
 }
 
 func prepare_for_matching(pattern string, lines []string, options Options) (string, []string) {
