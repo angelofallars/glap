@@ -16,6 +16,7 @@ type Options struct {
 	show_line_number bool
 	only_show_count  bool
 	invert_match     bool
+	max_count        int
 }
 
 var options Options
@@ -40,6 +41,10 @@ func init() {
 	flag.BoolVarP(&options.invert_match,
 		"invert-match", "v", false,
 		"display non-matching lines instead")
+
+	flag.IntVarP(&options.max_count,
+		"max-count", "m", -1,
+		"stop after N selected lines")
 }
 
 func main() {
@@ -88,6 +93,11 @@ func print_matching_lines(original_lines []string, lines []string, pattern strin
 	line_count := 0
 
 	for i, line := range lines {
+
+		if options.max_count >= 0 && line_count >= options.max_count {
+			break
+		}
+
 		line_is_match := strings.Contains(line, pattern)
 
 		if options.invert_match {
@@ -95,9 +105,9 @@ func print_matching_lines(original_lines []string, lines []string, pattern strin
 		}
 
 		if line_is_match {
+			line_count += 1
 
 			if options.only_show_count {
-				line_count += 1
 				continue
 			}
 
@@ -109,7 +119,7 @@ func print_matching_lines(original_lines []string, lines []string, pattern strin
 		}
 	}
 
-	if options.only_show_count {
+	if options.only_show_count && line_count > 0 {
 		fmt.Println(line_count)
 	}
 }
