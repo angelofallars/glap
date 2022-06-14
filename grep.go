@@ -80,6 +80,7 @@ func main() {
 		for _, line := range matching_lines {
 			fmt.Println(line)
 		}
+
 	} else {
 		fmt.Println(len(matching_lines))
 	}
