@@ -81,7 +81,7 @@ func main() {
 	// processed_lines is needed because the internal representation of
 	// things to filter won't always be the same as the original input,
 	// e.g. when ignoring letter case, where everything turns into uppercase.
-	processed_lines := copyStringSlice(lines)
+	processed_lines := cloneSlice(lines)
 
 	pattern, processed_lines = prepareForMatching(pattern, processed_lines, options)
 
@@ -162,8 +162,8 @@ func printHelpMessage() {
 	flag.PrintDefaults()
 }
 
-func copyStringSlice(original_slice []string) []string {
-	copied_slice := make([]string, len(original_slice))
+func cloneSlice[T interface{}](original_slice []T) []T {
+	copied_slice := make([]T, len(original_slice))
 	copy(copied_slice, original_slice)
 
 	return copied_slice
