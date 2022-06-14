@@ -1,3 +1,14 @@
+/* ## gogrep
+ * -- print lines that match a pattern
+ *
+ * A clone of grep written in Golang.
+ * Example: ls | grep -i '.png'
+ *
+ * Only has some of GNU grep's features, but more features will come soon.
+ *
+ * License: MIT
+ */
+
 package main
 
 import (
