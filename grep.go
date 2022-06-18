@@ -14,6 +14,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"strings"
@@ -76,7 +77,22 @@ func main() {
 
 	pattern := remaining_args[0]
 
-	lines := readInputLines()
+	var lines []string
+
+	files_to_read := remaining_args[1:]
+
+	if len(files_to_read) == 0 {
+		lines = readInputLines()
+
+	} else {
+		var file, err = ioutil.ReadFile(files_to_read[0])
+
+		if err != nil {
+			log.Fatalf("grep: %v: No such file or directory", files_to_read[0])
+		}
+
+		lines = strings.Split(string(file), "\n")
+	}
 
 	// processed_lines is needed because the internal representation of
 	// things to filter won't always be the same as the original input,
@@ -149,13 +165,13 @@ func findMatchingLines(original_lines []string, lines []string, pattern string, 
 }
 
 func printUsage() {
-	fmt.Println("usage: grep [OPTION]... PATTERN")
+	fmt.Println("usage: grep [OPTION]... PATTERN [FILE]")
 	fmt.Println("Try 'grep --help' for more information.")
 }
 
 func printHelpMessage() {
-	fmt.Println("usage: grep [OPTION]... PATTERN")
-	fmt.Println("Search for PATTERN matches from standard input. Reading from file support coming soon.")
+	fmt.Println("usage: grep [OPTION]... PATTERN [FILE]")
+	fmt.Println("Search for PATTERN matches from standard input, or from one file.")
 	fmt.Println("Example: ls | grep -i '.go'")
 	fmt.Printf("\n")
 	fmt.Println("Available options:")
