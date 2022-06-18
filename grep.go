@@ -86,13 +86,7 @@ func main() {
 
 		matching_lines := searchPattern(lines, pattern, options)
 
-		if !options.only_show_count {
-			for _, line := range matching_lines {
-				fmt.Println(line)
-			}
-		} else {
-			fmt.Println(len(matching_lines))
-		}
+		printMatches(matching_lines, "", options)
 
 		total_lines_matched += len(matching_lines)
 
@@ -109,20 +103,10 @@ func main() {
 
 			matching_lines := searchPattern(lines, pattern, options)
 
-			if !options.only_show_count {
-				for _, line := range matching_lines {
-					if len(files_to_read) > 1 {
-						fmt.Printf("%v:", file_name)
-					}
-					fmt.Println(line)
-				}
-
+			if len(files_to_read) == 1 {
+				printMatches(matching_lines, "", options)
 			} else {
-				if len(files_to_read) > 1 {
-					fmt.Printf("%v:%v\n", file_name, len(matching_lines))
-				} else {
-					fmt.Println(len(matching_lines))
-				}
+				printMatches(matching_lines, file_name, options)
 			}
 
 			total_lines_matched += len(matching_lines)
@@ -133,6 +117,20 @@ func main() {
 		os.Exit(0)
 	} else {
 		os.Exit(1)
+	}
+}
+
+func printMatches(lines []string, prefix string, options Options) {
+	if prefix != "" {
+		prefix = prefix + ":"
+	}
+
+	if !options.only_show_count {
+		for _, line := range lines {
+			fmt.Printf("%v%v\n", prefix, line)
+		}
+	} else {
+		fmt.Printf("%v%v\n", prefix, len(lines))
 	}
 }
 
