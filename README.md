@@ -14,6 +14,8 @@ Available options:
 
 -  `-v`, `--invert-match`        - display non-matching lines instead
 
+-  `-m`, `--max-count [N]`           - stop after N selected lines
+
 ### License
 
 MIT
