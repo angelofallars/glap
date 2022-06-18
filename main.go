@@ -1,4 +1,4 @@
-/* ## gogrep
+/* ## glap
  * -- print lines that match a pattern
  *
  * A clone of grep written in Golang.
