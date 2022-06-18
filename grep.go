@@ -12,8 +12,8 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
+	"gogrep/utils"
 	"io/ioutil"
 	"log"
 	"os"
@@ -82,7 +82,7 @@ func main() {
 	files_to_read := remaining_args[1:]
 
 	if len(files_to_read) == 0 {
-		lines = readInputLines()
+		lines = utils.ReadInputLines()
 
 	} else {
 		var file, err = ioutil.ReadFile(files_to_read[0])
@@ -97,7 +97,7 @@ func main() {
 	// processed_lines is needed because the internal representation of
 	// things to filter won't always be the same as the original input,
 	// e.g. when ignoring letter case, where everything turns into uppercase.
-	processed_lines := cloneSlice(lines)
+	processed_lines := utils.CloneSlice(lines)
 
 	pattern, processed_lines = prepareForMatching(pattern, processed_lines, options)
 
@@ -176,26 +176,4 @@ func printHelpMessage() {
 	fmt.Printf("\n")
 	fmt.Println("Available options:")
 	flag.PrintDefaults()
-}
-
-func cloneSlice[T interface{}](original_slice []T) []T {
-	copied_slice := make([]T, len(original_slice))
-	copy(copied_slice, original_slice)
-
-	return copied_slice
-}
-
-func readInputLines() []string {
-	input_scanner := bufio.NewScanner(os.Stdin)
-	input_lines := []string{}
-
-	for input_scanner.Scan() {
-		input_lines = append(input_lines, input_scanner.Text())
-	}
-
-	if error := input_scanner.Err(); error != nil {
-		log.Fatal(error)
-	}
-
-	return input_lines
 }
