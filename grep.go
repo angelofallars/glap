@@ -15,7 +15,6 @@ import (
 	"fmt"
 	"gogrep/utils"
 	"io/ioutil"
-	"log"
 	"os"
 	"strings"
 
@@ -95,7 +94,7 @@ func main() {
 			var file, err = ioutil.ReadFile(file_name)
 
 			if err != nil {
-				log.Printf("grep: %v: No such file or directory", file_name)
+				fmt.Printf("grep: %v: No such file or directory", file_name)
 				continue
 			}
 
