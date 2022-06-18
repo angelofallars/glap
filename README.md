@@ -1,6 +1,6 @@
 # glap
 
-Glap is an incomplete rewrite of grep in Go. Currently supports a few options.
+Glap is an incomplete rewrite of grep in Go. It can find lines that match a pattern from standard input or from mulptile files. Currently supports a few options.
 
 Available options:
 
