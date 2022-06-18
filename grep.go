@@ -101,18 +101,22 @@ func main() {
 
 	pattern, processed_lines = prepareForMatching(pattern, processed_lines, options)
 
-	matching_lines := findMatchingLines(lines, processed_lines, pattern, options)
+	matching_indexes := findMatchingIndexes(processed_lines, pattern, options)
 
 	if !options.only_show_count {
-		for _, line := range matching_lines {
-			fmt.Println(line)
+		for i := range matching_indexes {
+			if options.show_line_number {
+				fmt.Printf("%v:", i)
+			}
+
+			fmt.Println(lines[i])
 		}
 
 	} else {
-		fmt.Println(len(matching_lines))
+		fmt.Println(len(matching_indexes))
 	}
 
-	if len(matching_lines) > 0 {
+	if len(matching_indexes) > 0 {
 		os.Exit(0)
 	} else {
 		os.Exit(1)
@@ -131,9 +135,9 @@ func prepareForMatching(pattern string, lines []string, options Options) (string
 	return pattern, lines
 }
 
-func findMatchingLines(original_lines []string, lines []string, pattern string, options Options) []string {
+func findMatchingIndexes(lines []string, pattern string, options Options) []uint {
 	line_count := 0
-	matching_lines := []string{}
+	matching_indexes := []uint{}
 
 	for i, line := range lines {
 		if options.max_count >= 0 && line_count >= options.max_count {
@@ -148,20 +152,11 @@ func findMatchingLines(original_lines []string, lines []string, pattern string, 
 
 		if line_is_match {
 			line_count += 1
-
-			matching_line := ""
-
-			if options.show_line_number {
-				matching_line = fmt.Sprintf("%v:", i)
-			}
-
-			matching_line += original_lines[i]
-
-			matching_lines = append(matching_lines, matching_line)
+			matching_indexes = append(matching_indexes, uint(i))
 		}
 	}
 
-	return matching_lines
+	return matching_indexes
 }
 
 func printUsage() {
