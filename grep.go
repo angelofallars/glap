@@ -77,30 +77,47 @@ func main() {
 
 	pattern := remaining_args[0]
 
-	var lines []string
-
 	files_to_read := remaining_args[1:]
 
+	total_lines_matched := 0
+
 	if len(files_to_read) == 0 {
-		lines = utils.ReadInputLines()
+		lines := utils.ReadInputLines()
 
-	} else {
-		var file, err = ioutil.ReadFile(files_to_read[0])
+		matching_lines := searchPattern(lines, pattern, options)
 
-		if err != nil {
-			log.Fatalf("grep: %v: No such file or directory", files_to_read[0])
+		for _, line := range matching_lines {
+			fmt.Println(line)
 		}
 
-		lines = strings.Split(string(file), "\n")
+		total_lines_matched += len(matching_lines)
+
+	} else {
+		for _, file_name := range files_to_read {
+			var file, err = ioutil.ReadFile(file_name)
+
+			if err != nil {
+				log.Printf("grep: %v: No such file or directory", file)
+				continue
+			}
+
+			lines := strings.Split(string(file), "\n")
+
+			matching_lines := searchPattern(lines, pattern, options)
+
+			for _, line := range matching_lines {
+				if len(files_to_read) > 1 {
+					fmt.Printf("%v:", file_name)
+				}
+
+				fmt.Println(line)
+			}
+
+			total_lines_matched += len(matching_lines)
+		}
 	}
 
-	matching_lines := searchPattern(lines, pattern, options)
-
-	for _, line := range matching_lines {
-		fmt.Println(line)
-	}
-
-	if len(matching_lines) > 0 {
+	if total_lines_matched > 0 {
 		os.Exit(0)
 	} else {
 		os.Exit(1)
