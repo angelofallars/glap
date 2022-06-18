@@ -124,12 +124,13 @@ func printMatches(lines []string, prefix string, options Options) {
 		prefix = prefix + ":"
 	}
 
-	if !options.only_show_count {
-		for _, line := range lines {
-			fmt.Printf("%v%v\n", prefix, line)
-		}
-	} else {
+	if options.only_show_count {
 		fmt.Printf("%v%v\n", prefix, len(lines))
+		return
+	}
+
+	for _, line := range lines {
+		fmt.Printf("%v%v\n", prefix, line)
 	}
 }
 
