@@ -86,8 +86,12 @@ func main() {
 
 		matching_lines := searchPattern(lines, pattern, options)
 
-		for _, line := range matching_lines {
-			fmt.Println(line)
+		if !options.only_show_count {
+			for _, line := range matching_lines {
+				fmt.Println(line)
+			}
+		} else {
+			fmt.Println(len(matching_lines))
 		}
 
 		total_lines_matched += len(matching_lines)
@@ -105,12 +109,20 @@ func main() {
 
 			matching_lines := searchPattern(lines, pattern, options)
 
-			for _, line := range matching_lines {
-				if len(files_to_read) > 1 {
-					fmt.Printf("%v:", file_name)
+			if !options.only_show_count {
+				for _, line := range matching_lines {
+					if len(files_to_read) > 1 {
+						fmt.Printf("%v:", file_name)
+					}
+					fmt.Println(line)
 				}
 
-				fmt.Println(line)
+			} else {
+				if len(files_to_read) > 1 {
+					fmt.Printf("%v:%v\n", file_name, len(matching_lines))
+				} else {
+					fmt.Println(len(matching_lines))
+				}
 			}
 
 			total_lines_matched += len(matching_lines)
