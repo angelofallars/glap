@@ -95,7 +95,7 @@ func main() {
 			var file, err = ioutil.ReadFile(file_name)
 
 			if err != nil {
-				log.Printf("grep: %v: No such file or directory", file)
+				log.Printf("grep: %v: No such file or directory", file_name)
 				continue
 			}
 
