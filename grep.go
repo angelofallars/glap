@@ -94,6 +94,20 @@ func main() {
 		lines = strings.Split(string(file), "\n")
 	}
 
+	matching_lines := searchPattern(lines, pattern, options)
+
+	for _, line := range matching_lines {
+		fmt.Println(line)
+	}
+
+	if len(matching_lines) > 0 {
+		os.Exit(0)
+	} else {
+		os.Exit(1)
+	}
+}
+
+func searchPattern(lines []string, pattern string, options Options) []string {
 	// processed_lines is needed because the internal representation of
 	// things to filter won't always be the same as the original input,
 	// e.g. when ignoring letter case, where everything turns into uppercase.
@@ -103,24 +117,21 @@ func main() {
 
 	matching_indexes := findMatchingIndexes(processed_lines, pattern, options)
 
-	if !options.only_show_count {
-		for i := range matching_indexes {
-			if options.show_line_number {
-				fmt.Printf("%v:", i)
-			}
+	matching_lines := []string{}
 
-			fmt.Println(lines[i])
+	for _, index := range matching_indexes {
+		var line string
+
+		if !options.show_line_number {
+			line = lines[index]
+		} else {
+			line = fmt.Sprintf("%v:%v", index, lines[index])
 		}
 
-	} else {
-		fmt.Println(len(matching_indexes))
+		matching_lines = append(matching_lines, line)
 	}
 
-	if len(matching_indexes) > 0 {
-		os.Exit(0)
-	} else {
-		os.Exit(1)
-	}
+	return matching_lines
 }
 
 func prepareForMatching(pattern string, lines []string, options Options) (string, []string) {
