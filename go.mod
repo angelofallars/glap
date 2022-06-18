@@ -1,4 +1,4 @@
-module gogrep
+module glap
 
 go 1.18
 

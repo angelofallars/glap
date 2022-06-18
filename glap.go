@@ -13,7 +13,7 @@ package main
 
 import (
 	"fmt"
-	"gogrep/utils"
+	"glap/utils"
 	"io/ioutil"
 	"os"
 	"strings"

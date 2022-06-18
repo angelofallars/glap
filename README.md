@@ -1,6 +1,6 @@
-# gogrep
+# glap
 
-An incomplete rewrite of grep in Go. Currently supports a few options.
+Glap is an incomplete rewrite of grep in Go. Currently supports a few options.
 
 Available options:
 
